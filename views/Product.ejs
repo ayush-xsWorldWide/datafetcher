@@ -1,0 +1,73 @@
+<%- include('partials/header') %>
+    <div class="container mt-3">
+        <table class="table table-dark table-striped-columns">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">image Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr> -->
+                <% data.forEach(element=>{ %>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>
+                            <%=element.name %>
+                        </td>
+                        <td>
+                            <%=element.email %>
+                        </td>
+                        <td>
+                            <%=element.phoneNumber %>
+                        </td>
+                        <td>
+                            <%=element.createdDate %>
+                        </td>
+                        <!-- <td><img src="data:image/jpeg;base64,<%=element.screenshot%>" alt="image" height="50" width="100"></td> -->
+                        <td><button class="btn btn-danger"
+                                onclick="downloadFile('<%=element.screenshot %>')">Download</button></td>
+                    </tr>
+                    <% }) %>
+
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function downloadFile(data) {
+            // console.log(data);
+            // Convert the Base64 data to a Blob
+            const byteCharacters = atob(data);
+            const byteArrays = [];
+            for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
+                const slice = byteCharacters.slice(offset, offset + 1024);
+
+                const byteNumbers = new Array(slice.length);
+                for (let i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+
+                const byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            const blob = new Blob(byteArrays, { type: 'image/jpeg' }); // Replace 'image/png' with the appropriate MIME type if necessary
+
+            // Create a download link
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'image';
+
+            // Trigger the download
+            link.click();
+        }
+    </script>
+    <%- include('partials/footer') %>
