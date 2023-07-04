@@ -13,3 +13,14 @@ exports.fetchData = async(req,res)=>{
     }
 }
 
+exports.getData = async(req,res)=>{
+    const { name, email, phoneNumber, screenshot } = req.body;
+    try{
+        await User.create({ name, email, phoneNumber, screenshot });
+        return res.send("Submited!");
+    }
+    catch(error)
+    {
+        return res.send("Server error");
+    }
+}

@@ -14,7 +14,8 @@ const userdata = mongoose.Schema({
         type: String
     },
     createdDate:{
-        type: Date 
+        type: Date,
+        default: Date.now()
     }
 });
 
